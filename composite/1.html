@@ -1,0 +1,218 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts</title>
+</head>
+<body>
+<div id="main" style="width: 100%;height:100%;">
+</div>
+<script src="../jquery.min.js"></script>
+<script src="../echarts4.2.min.js"></script>
+<script>
+var option=null;
+
+
+//折柱混合1
+
+option={
+	title : {
+        text: '某地区蒸发量和降水量',
+        subtext: '纯属虚构'
+    },
+	tooltip : {
+        trigger: 'axis'
+    },
+	legend: {
+        data:['蒸发量','降水量']
+    },
+	toolbox: {
+        show : true,
+        feature : {
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+	
+	dataset: {
+		source: [
+			['month', '1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+			['蒸发量', 2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+			['降水量', 2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+		]
+	},
+	
+	
+	xAxis : [
+        {
+            type : 'category'
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+	series : [
+		{
+			name:'蒸发量',
+			type: 'bar',
+			smooth: true, 
+			//用户可以使用 seriesLayoutBy 配置项，改变图表对于行列的理解。seriesLayoutBy 可取值：
+			//'column': 默认值。系列被安放到 dataset 的列上面。
+			//'row': 系列被安放到 dataset 的行上面。
+			seriesLayoutBy: 'row',
+			markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+		},
+		{
+			name:'降水量',
+			type: 'bar',
+			smooth: true, 
+			seriesLayoutBy: 'row',
+			markPoint : {
+                data : [
+                    {name : '年最高', type:'max'},
+                    {name : '年最低', type:'min'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name : '平均值'}
+                ]
+            }
+		},
+        {	
+			name:'蒸发量走势',
+			type: 'line', 
+			smooth: true, 
+			encode:{
+				x:0,
+				y:1
+			},
+			seriesLayoutBy: 'row'
+		},
+        {	
+			name:'降水量走势',
+			type: 'line',
+			seriesLayoutBy: 'row',
+			encode:{
+				x:0,
+				y:2
+			},
+			smooth: true, 
+			seriesLayoutBy: 'row'
+		}
+    ]
+};
+
+
+//折柱混合2
+/*
+option={
+	tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            crossStyle: {
+                color: '#fff'
+            }
+        }
+    },
+	toolbox: {
+        feature: {
+            dataView: {show: true, readOnly: false},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore: {show: true},
+            saveAsImage: {show: true}
+        }
+    },
+	legend: {
+        data:['蒸发量','降水量','平均温度']
+    },
+	dataset:{
+		source:[
+			['month','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+			['蒸发量',2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+			['降水量',2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			['平均温度',2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+		]
+	},
+	xAxis : [
+        {
+            type : 'category',
+			axisPointer: {
+                type: 'shadow'
+            }
+        }
+    ],
+    yAxis : [
+        {
+			type: 'value',
+            name: '水量',
+            min: 0,
+            max: 250,
+            interval: 50,
+            axisLabel: {
+                formatter: '{value} ml'
+            }
+        },
+		{
+            type: 'value',
+            name: '温度',
+            min: 0,
+            max: 25,
+            interval: 5,
+            axisLabel: {
+                formatter: '{value} °C'
+            }
+        }
+    ],
+	series : [
+		{	
+			name:'蒸发量',
+			type: 'bar', 
+			encode:{
+				x:0,
+				y:1
+			},
+			seriesLayoutBy: 'row'
+		},
+		{	
+			name:'降水量',
+			type: 'bar', 
+			encode:{
+				x:0,
+				y:2
+			},
+			seriesLayoutBy: 'row'
+		},
+		{	
+			name:'平均温度',
+			type: 'line', 
+			smooth: true, 
+			yAxisIndex: 1,
+			encode:{
+				x:0,
+				y:3
+			},
+			seriesLayoutBy: 'row'
+		}
+	]
+};
+*/
+var chart = echarts.init(document.getElementById('main'));
+chart.setOption(option);
+</script>
+</body>
+</html>
